@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import './App.css';
 // import Frase from './escena/Escena';
-import frases from './escena/frases.json';
 import { EstilosFrases, EstiloPantallaInicial } from './escena/styled';
 import imagen from './img/imagen.jpg';
+import frases from './escena/frases.js';
 
 // IMPORTANTE: los nombres de los componentes siempre empezando en Mayúsculas o no funcionarán
 
@@ -49,28 +49,44 @@ function App() {
   return (
 
     <div>
-
       {/* Ponemos <> y </> entre el código que queremos poner entre cada condición */}
 
-      {condicion ? <>       <button onClick={() => anterior()}>Anterior</button> <button onClick={() => siguiente()}>Següent</button>
+      {condicion ?
 
-        {
-          frases.map((frase, key) => {
+        // 1) CONDICIÓN TRUE: CARGAR TODO ESTO (LA PANTALLA CON LAS FRASES) 
+        <>
+          <button onClick={() => anterior()}>Anterior</button> <button onClick={() => siguiente()}>Següent</button>
 
-            return <EstilosFrases isTrue={key == position} ><p key={key}>{frase}</p></EstilosFrases>
-            // En styled le dijimos el estilo a tener si el valor es true o false, y aquí le decimos que será True cuando la key sea igual al nº de posición, es decir, que coincida posición del Map con el contador que tenemos arriba.
-          })
-        };</> : <>
-        <EstiloPantallaInicial>
-          <div className="intro">
-            <h1>Bienvenido a esta aventura interactiva</h1>
-            <img src={imagen}></img>
-            <p>¿Quieres acompañar al protagonista y decidir por él lo que tiene que hacer? ¡Clica abajo!</p>
-          </div>
-          <button onClick={() => screen()}>Accede a la aventura</button>
+          {
+            frases.map((frase, key) =>
 
-        </EstiloPantallaInicial>
-      </>}
+              <EstilosFrases isTrue={key == position} style={{ backgroundImage: frase.img }} >
+
+                <p key={key}>{frase.text}</p>
+
+              </EstilosFrases>
+
+            )
+
+            // Cuando todo es un RETURN, podemos quitar { } y el RETURN, en este caso podemos quitar todo
+
+          };
+        </>
+
+        // 2) CONDICIÓN FALSE (LA QUE VIENE POR DEFECTO): CARGAR ESTO (LA PANTALLA DE BIENVENIDA)
+        :
+        <>
+          <EstiloPantallaInicial>
+            <div className="intro">
+              <h1>Bienvenido a esta aventura interactiva</h1>
+              <img src={imagen}></img>
+              <p>¿Quieres acompañar al protagonista y decidir por él lo que tiene que hacer? ¡Clica abajo!</p>
+            </div>
+            <button onClick={() => screen()}>Accede a la aventura</button>
+
+          </EstiloPantallaInicial>
+        </>
+      }
 
     </div >
 
@@ -90,3 +106,4 @@ export default App;
 // 3) Eso hacía que se imprimieran todas las frases. OK. Pero además le hemos añadido un styled.component para que pinte verde si es true y rojo si es false.
 // 4) ¿Qué le decimos como condición? Si la key de cada elemento del Map coincide con el nº del contador de arriba (que, repetimos, está desvinculado totalmente de este array, solo va aumentando o bajando de nº en función de las flechas Anterior-Siguiente) es True, por tanto, píntalo de verde. Et voilà! Cada vez que cambiemos el nº del contador será otro elemento del Array que daría True.
 // 5) En circunstancias normales con Javascript se solucionaría eso fácilmente, pero en React no vuelve a evaluar el estado de la condición cuando ésta ha cambiado. El programa "no se entera" de que ha cambiado a no ser que le añadas un UseState. De modo que hemos de hacer ese contador raro con UseState para que se vaya fijando cada vez que cambia.
+

@@ -6,6 +6,7 @@ border-radius: 50px;
 border: #000000 2px solid;
 margin: 10px;
 
+
 // Aquí añadimos un estilo en función de la props
 
 background-color: ${({ isTrue }) => isTrue ? 'green' : 'red'};
