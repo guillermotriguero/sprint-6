@@ -4,7 +4,7 @@ import './App.css';
 // import Frase from './escena/Escena';
 import { EstilosFrases, EstiloPantallaInicial } from './escena/styled';
 import imagen from './img/imagen.jpg';
-import frases from './escena/frases.js';
+import frases from './escena/Frases.js';
 
 // IMPORTANTE: los nombres de los componentes siempre empezando en Mayúsculas o no funcionarán
 
